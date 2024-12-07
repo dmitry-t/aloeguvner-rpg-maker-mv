@@ -118,6 +118,22 @@ Window_ItemList.prototype.makeItemList = function () {
     this.sortPriorityList();
 };
 
+ALOE.Alias.Window_ShopBuy_makeItemList = Window_ShopBuy.prototype.makeItemList;
+Window_ShopBuy.prototype.makeItemList = function() {
+    ALOE.Alias.Window_ShopBuy_makeItemList.call(this);
+    // Remember prices before sorting data
+    for (var i = 0; i < this._data.length; ++i) {
+        this._data[i].aloeTmpPrice = this._price[i];
+    }
+    this.sortPriorityList();
+    // Restore prices from sorted data
+    for (var i = 0; i < this._data.length; ++i) {
+        this._price[i] = this._data[i].aloeTmpPrice;
+        this._data[i].aloeTmpPrice = undefined;
+    }
+};
+
+
 //=============================================================================
 // Window_Selectable
 //=============================================================================
